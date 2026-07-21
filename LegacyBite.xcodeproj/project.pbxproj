@@ -1,0 +1,566 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		D06540F23002A02A004DECB3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D06540CB3002A029004DECB3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D06540D23002A029004DECB3;
+			remoteInfo = LegacyBite;
+		};
+		D06540FC3002A02A004DECB3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D06540CB3002A029004DECB3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D06540D23002A029004DECB3;
+			remoteInfo = LegacyBite;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D06540D33002A029004DECB3 /* LegacyBite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LegacyBite.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D06540F13002A02A004DECB3 /* LegacyBiteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LegacyBiteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D06540FB3002A02A004DECB3 /* LegacyBiteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LegacyBiteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D06541033002A02A004DECB3 /* Exceptions for "LegacyBite" folder in "LegacyBite" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D06540D23002A029004DECB3 /* LegacyBite */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		D06540D53002A029004DECB3 /* LegacyBite */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D06541033002A02A004DECB3 /* Exceptions for "LegacyBite" folder in "LegacyBite" target */,
+			);
+			path = LegacyBite;
+			sourceTree = "<group>";
+		};
+		D06540F43002A02A004DECB3 /* LegacyBiteTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = LegacyBiteTests;
+			sourceTree = "<group>";
+		};
+		D06540FE3002A02A004DECB3 /* LegacyBiteUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = LegacyBiteUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D06540D03002A029004DECB3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D06540EE3002A02A004DECB3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D06540F83002A02A004DECB3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D06540CA3002A029004DECB3 = {
+			isa = PBXGroup;
+			children = (
+				D06540D53002A029004DECB3 /* LegacyBite */,
+				D06540F43002A02A004DECB3 /* LegacyBiteTests */,
+				D06540FE3002A02A004DECB3 /* LegacyBiteUITests */,
+				D06540D43002A029004DECB3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D06540D43002A029004DECB3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D06540D33002A029004DECB3 /* LegacyBite.app */,
+				D06540F13002A02A004DECB3 /* LegacyBiteTests.xctest */,
+				D06540FB3002A02A004DECB3 /* LegacyBiteUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D06540D23002A029004DECB3 /* LegacyBite */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D06541043002A02A004DECB3 /* Build configuration list for PBXNativeTarget "LegacyBite" */;
+			buildPhases = (
+				D06540CF3002A029004DECB3 /* Sources */,
+				D06540D03002A029004DECB3 /* Frameworks */,
+				D06540D13002A029004DECB3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				D06540D53002A029004DECB3 /* LegacyBite */,
+			);
+			name = LegacyBite;
+			productName = LegacyBite;
+			productReference = D06540D33002A029004DECB3 /* LegacyBite.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D06540F03002A02A004DECB3 /* LegacyBiteTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D06541093002A02A004DECB3 /* Build configuration list for PBXNativeTarget "LegacyBiteTests" */;
+			buildPhases = (
+				D06540ED3002A02A004DECB3 /* Sources */,
+				D06540EE3002A02A004DECB3 /* Frameworks */,
+				D06540EF3002A02A004DECB3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D06540F33002A02A004DECB3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D06540F43002A02A004DECB3 /* LegacyBiteTests */,
+			);
+			name = LegacyBiteTests;
+			productName = LegacyBiteTests;
+			productReference = D06540F13002A02A004DECB3 /* LegacyBiteTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D06540FA3002A02A004DECB3 /* LegacyBiteUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D065410C3002A02A004DECB3 /* Build configuration list for PBXNativeTarget "LegacyBiteUITests" */;
+			buildPhases = (
+				D06540F73002A02A004DECB3 /* Sources */,
+				D06540F83002A02A004DECB3 /* Frameworks */,
+				D06540F93002A02A004DECB3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D06540FD3002A02A004DECB3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D06540FE3002A02A004DECB3 /* LegacyBiteUITests */,
+			);
+			name = LegacyBiteUITests;
+			productName = LegacyBiteUITests;
+			productReference = D06540FB3002A02A004DECB3 /* LegacyBiteUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D06540CB3002A029004DECB3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 2640;
+				TargetAttributes = {
+					D06540D23002A029004DECB3 = {
+						CreatedOnToolsVersion = 26.4.1;
+					};
+					D06540F03002A02A004DECB3 = {
+						CreatedOnToolsVersion = 26.4.1;
+						TestTargetID = D06540D23002A029004DECB3;
+					};
+					D06540FA3002A02A004DECB3 = {
+						CreatedOnToolsVersion = 26.4.1;
+						TestTargetID = D06540D23002A029004DECB3;
+					};
+				};
+			};
+			buildConfigurationList = D06540CE3002A029004DECB3 /* Build configuration list for PBXProject "LegacyBite" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D06540CA3002A029004DECB3;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D06540D43002A029004DECB3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D06540D23002A029004DECB3 /* LegacyBite */,
+				D06540F03002A02A004DECB3 /* LegacyBiteTests */,
+				D06540FA3002A02A004DECB3 /* LegacyBiteUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D06540D13002A029004DECB3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D06540EF3002A02A004DECB3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D06540F93002A02A004DECB3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D06540CF3002A029004DECB3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D06540ED3002A02A004DECB3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D06540F73002A02A004DECB3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D06540F33002A02A004DECB3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D06540D23002A029004DECB3 /* LegacyBite */;
+			targetProxy = D06540F23002A02A004DECB3 /* PBXContainerItemProxy */;
+		};
+		D06540FD3002A02A004DECB3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D06540D23002A029004DECB3 /* LegacyBite */;
+			targetProxy = D06540FC3002A02A004DECB3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D06541053002A02A004DECB3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.05;
+				DEVELOPMENT_TEAM = U3CW2XVKL7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LegacyBite/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.01;
+				PRODUCT_BUNDLE_IDENTIFIER = SS.LegacyBite;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D06541063002A02A004DECB3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.05;
+				DEVELOPMENT_TEAM = U3CW2XVKL7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LegacyBite/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.01;
+				PRODUCT_BUNDLE_IDENTIFIER = SS.LegacyBite;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D06541073002A02A004DECB3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = U3CW2XVKL7;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D06541083002A02A004DECB3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = U3CW2XVKL7;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D065410A3002A02A004DECB3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U3CW2XVKL7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = SS.LegacyBiteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LegacyBite.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LegacyBite";
+			};
+			name = Debug;
+		};
+		D065410B3002A02A004DECB3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U3CW2XVKL7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = SS.LegacyBiteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LegacyBite.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LegacyBite";
+			};
+			name = Release;
+		};
+		D065410D3002A02A004DECB3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U3CW2XVKL7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = SS.LegacyBiteUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = LegacyBite;
+			};
+			name = Debug;
+		};
+		D065410E3002A02A004DECB3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U3CW2XVKL7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = SS.LegacyBiteUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = LegacyBite;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D06540CE3002A029004DECB3 /* Build configuration list for PBXProject "LegacyBite" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D06541073002A02A004DECB3 /* Debug */,
+				D06541083002A02A004DECB3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D06541043002A02A004DECB3 /* Build configuration list for PBXNativeTarget "LegacyBite" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D06541053002A02A004DECB3 /* Debug */,
+				D06541063002A02A004DECB3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D06541093002A02A004DECB3 /* Build configuration list for PBXNativeTarget "LegacyBiteTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D065410A3002A02A004DECB3 /* Debug */,
+				D065410B3002A02A004DECB3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D065410C3002A02A004DECB3 /* Build configuration list for PBXNativeTarget "LegacyBiteUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D065410D3002A02A004DECB3 /* Debug */,
+				D065410E3002A02A004DECB3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D06540CB3002A029004DECB3 /* Project object */;
+}
