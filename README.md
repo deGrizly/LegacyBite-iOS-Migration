@@ -25,6 +25,8 @@ Implemented:
 - Product detail screen
 - About section with project and API information
 - App logo and native iOS UI
+- Baseline unit tests for Open Food Facts response mapping
+- UI launch smoke test
 
 ## Migration Roadmap
 
@@ -32,7 +34,7 @@ Implemented:
 - `v1-swift-viewmodel-bridge` — introduce Swift models/ViewModels inside UIKit
 - `v2-modern-networking-swift-uikit` — modernize networking and data flow
 - `v3-hybrid-uikit-swiftui` — embed SwiftUI screens into UIKit
-- `v4-production-polish` — final cleanup, tests, UX improvements, and documentation
+- `v4-production-polish` — expand test coverage, UX improvements, cleanup, and documentation
 
 ## Tech Stack
 
@@ -43,6 +45,7 @@ Current baseline:
 - AVFoundation
 - CoreData
 - Open Food Facts API
+- XCTest
 
 Planned modernization:
 
@@ -50,7 +53,22 @@ Planned modernization:
 - MVVM
 - Swift Concurrency / modern networking
 - SwiftUI
-- XCTest
+
+
+## Testing
+
+The legacy baseline includes a small XCTest suite focused on preserving existing behavior before migration.
+
+Current coverage:
+
+- Mapping Open Food Facts JSON fields into the Objective-C product model
+- Mapping nutrition values
+- Handling responses with missing optional fields
+- Basic application launch smoke test
+
+The JSON mapping logic intentionally remains inside the Objective-C network manager at this stage. This reflects the constraints of the legacy MVC baseline.
+
+During the Swift and MVVM migration, parsing and data transformation will be moved into independently testable components with explicit dependency injection.
 
 ## Data Source
 
