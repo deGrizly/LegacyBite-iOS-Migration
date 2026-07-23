@@ -1,21 +1,21 @@
 //
-//  ScanerViewController.m
+//  ScannerViewController.m
 //  LegacyBite
 //
 //  Created by Grizly on 15.07.26.
 //
 
-#import "ScanerViewController.h"
+#import "ScannerViewController.h"
 #import "AVFoundation/AVFoundation.h"
 #import "CameraViewController.h"
 #import "ProductManager.h"
 #import "ProductCardViewController.h"
 
-@interface ScanerViewController () <CameraViewControllerDelegate>
+@interface ScannerViewController () <CameraViewControllerDelegate>
 
 @end
 
-@implementation ScanerViewController
+@implementation ScannerViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -51,7 +51,7 @@
 -(void)showAccessDeniedAlert{
     
     NSString * title = @"";
-    NSString * message = @"";
+    NSString * message = @"Enable camera access in Settings to scan product barcodes.";
     
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     

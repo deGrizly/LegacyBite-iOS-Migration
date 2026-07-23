@@ -86,8 +86,8 @@
     [self configureProductImageView];
     [self configureImageActivityIndicator];
     NSString * score = self.product.nutriScore;
-    NSArray * testList = @[@"a", @"b", @"c", @"d", @"e"];
-    if(![score isEqual:[NSNull null]] && score && [testList containsObject:score.lowercaseString]){
+    NSArray * validNutriScores = @[@"a", @"b", @"c", @"d", @"e"];
+    if(![score isEqual:[NSNull null]] && score && [validNutriScores containsObject:score.lowercaseString]){
         [self.nutriScoreView setScore:[score uppercaseString]];
     } else {
         self.nutriScoreView.hidden = true;

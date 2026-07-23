@@ -80,7 +80,7 @@
         cell.dateLabel.text =
         [[[self class] historyDateFormatter] stringFromDate:obj.savedDate];
     } else {
-        cell.dateLabel.hidden = nil;
+        cell.dateLabel.hidden = true;
     }
     
     

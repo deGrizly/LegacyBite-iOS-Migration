@@ -32,6 +32,8 @@
 
     self.imageTask = nil;
     self.representedImageURL = nil;
+    
+    self.productImage.image = nil;
 }
 
 @end

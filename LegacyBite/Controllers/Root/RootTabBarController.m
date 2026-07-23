@@ -8,7 +8,7 @@
 #import "RootTabBarController.h"
 #import "AboutViewController.h"
 #import "HistoryViewController.h"
-#import "ScanerViewController.h"
+#import "ScannerViewController.h"
 
 typedef enum : NSUInteger {
     RootTabBarTagScan,
@@ -42,10 +42,10 @@ typedef enum : NSUInteger {
 
 -(void)addTabBarControllers{
     
-    ScanerViewController * scanerVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ScanerViewController"]; 
-    UINavigationController * scanerNC = [[UINavigationController alloc] initWithRootViewController:scanerVC];
+    ScannerViewController * scannerVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ScannerViewController"];
+    UINavigationController * scannerNC = [[UINavigationController alloc] initWithRootViewController:scannerVC];
     UITabBarItem * scanItem = [[UITabBarItem alloc] initWithTitle:@"Scan" image:[UIImage systemImageNamed:@"barcode.viewfinder"] tag:RootTabBarTagScan];
-    scanerNC.tabBarItem = scanItem;
+    scannerNC.tabBarItem = scanItem;
     
     HistoryViewController * historyVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"HistoryViewController"];
     UINavigationController * historyNC = [[UINavigationController alloc] initWithRootViewController:historyVC];
@@ -61,7 +61,7 @@ typedef enum : NSUInteger {
     aboutNC.tabBarItem = aboutItem;
     
     NSMutableArray * list = [NSMutableArray new];
-    [list addObject:scanerNC];
+    [list addObject:scannerNC];
     [list addObject:historyNC];
     [list addObject:aboutNC];
     

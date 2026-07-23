@@ -165,7 +165,7 @@
                 }
                 return;
             } else {
-                [self handleError:@"Serilization to SSProductObject error" completion:completion];
+                [self handleError:@"Serialization to SSProductObject error" completion:completion];
                 return;
             }
             

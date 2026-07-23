@@ -37,7 +37,7 @@
     }
 }
 
--(Product *)getProductWith:(NSString *)barCode{
+-(Product *)getProductWith:(NSString *)barCode error:(NSError **)error{
     
     if (!barCode || barCode.length == 0) {
         return nil;
@@ -51,8 +51,7 @@
     request.predicate = [NSPredicate predicateWithFormat:@"code=%@",barCode];
     request.fetchLimit = 1;
     
-    NSError * error = nil;
-    NSArray<Product *> * result = [context executeFetchRequest:request error:&error];
+    NSArray<Product *> * result = [context executeFetchRequest:request error:error];
     
     if(error || result.count == 0){
         return nil;;
@@ -127,7 +126,7 @@
         return nil;
     }
 
-    Product * product = [self getProductWith:barCode];
+    Product *product = [self getProductWith:barCode error:error];
 
     return [self productObjectFromEntity:product];
 }

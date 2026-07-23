@@ -1,5 +1,5 @@
 //
-//  ScanerViewController.h
+//  ScannerViewController.h
 //  LegacyBite
 //
 //  Created by Grizly on 15.07.26.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ScanerViewController : UIViewController
+@interface ScannerViewController : UIViewController
 
 @end
 
