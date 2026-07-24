@@ -30,7 +30,7 @@
     return instance;
 }
 
--(void)handleError:(NSString *)errorStr completion:(responseBlock)completion{
+-(void)handleError:(NSString *)errorStr completion:(SSNetworkResponseBlock)completion{
     NSString * errStr = @"Something went wrong";
     if (errorStr && errorStr.length > 0){
         errStr = errorStr;
@@ -97,7 +97,7 @@
     return productObject;
 }
 
--(void)getProductInfoWith:(NSString *)barCode withResponse:(responseBlock)completion{
+-(void)getProductInfoWith:(NSString *)barCode withResponse:(SSNetworkResponseBlock)completion{
     if (!barCode || [barCode length] == 0){
         [self handleError:@"Bar code is empty" completion:completion];
         return;

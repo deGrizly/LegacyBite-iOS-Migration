@@ -10,8 +10,11 @@
 #import "CameraViewController.h"
 #import "ProductManager.h"
 #import "ProductCardViewController.h"
+#import "LegacyBite-Swift.h"
 
 @interface ScannerViewController () <CameraViewControllerDelegate>
+
+@property (strong, nonatomic) ScannerViewModel * viewModel;
 
 @end
 
@@ -19,6 +22,36 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self initViewModel];
+}
+
+-(void)initViewModel{
+    self.viewModel = [[ScannerViewModel alloc] init];
+    __weak typeof(self) weakSelf = self;
+    
+    self.viewModel.onLoadingChanged = ^(BOOL isLoading){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (isLoading) {
+                [weakSelf showLoaderWithBlocksInteraction:NO];
+            } else {
+                [weakSelf hideLoader];
+            }
+        });
+    };
+    
+    self.viewModel.onProductLoaded = ^(SSProductObject * product){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf showProduct:product];
+        });
+        
+    };
+    
+    self.viewModel.onError = ^(NSError * error){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf showAlertWith:error.localizedDescription];
+        });
+    };
 }
 
 -(IBAction)scanBarcodeAction:(id)sender{
@@ -76,26 +109,15 @@
     [self presentViewController:alert animated:true completion:nil];
 }
 
--(void)loadData:(NSString *)barCode{
-    
-    [[ProductManager shared]getProductForBarCode:barCode with:^(SSProductObject *  _Nullable product, NSError * _Nullable error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if(product){
-                ProductCardViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ProductCardViewController"];
-                vc.product = product;
-                [self.navigationController pushViewController:vc animated:true];
-            } else if (error){
-                [self showAlertWith:error.localizedDescription];
-            } else {
-                [self showAlertWith:@"Something went wrong, try again later."];
-            }
-        });
-    }];
+-(void)showProduct:(SSProductObject *)product{
+    ProductCardViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ProductCardViewController"];
+    vc.product = product;
+    [self.navigationController pushViewController:vc animated:true];
 }
 
 #pragma mark: CameraViewControllerDelegate
 -(void)didScanBarCode:(NSString *)barCode{
-    [self loadData:barCode];
+    [self.viewModel loadProductWithBarCode:barCode];
 }
 
 @end

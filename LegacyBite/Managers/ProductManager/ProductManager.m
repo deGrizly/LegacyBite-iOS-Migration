@@ -22,7 +22,7 @@
     return instance;
 }
 
--(void)getProductForBarCode:(NSString *)barCode with:(responseBlock)response{
+-(void)getProductForBarCode:(NSString *)barCode with:(ProductResponseBlock)response{
     
     NSError * coreDataError = nil;
     SSProductObject * obj = [[CoreDataManager shared]getProductBy:barCode error:&coreDataError];
