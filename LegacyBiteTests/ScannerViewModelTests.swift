@@ -25,6 +25,7 @@ private final class ProductLoaderMock: ProductLoading {
         
         if let productToReturn{
             completion(.success(productToReturn))
+            return
         }
         
         if let errorToReturn{
@@ -38,8 +39,8 @@ private final class ProductLoaderMock: ProductLoading {
 final class ScannerViewModelTests: XCTestCase {
     
     func testLoadProductWithEmptyBarCodeReturnError(){
-        let producLoader = ProductLoaderMock()
-        let viewModel = ScannerViewModel(productLoader: producLoader)
+        let productLoader = ProductLoaderMock()
+        let viewModel = ScannerViewModel(productLoader: productLoader)
         
         var receivedError: NSError?
         viewModel.onError = { error in
@@ -49,7 +50,7 @@ final class ScannerViewModelTests: XCTestCase {
         viewModel.loadProduct(barCode: "")
         
         XCTAssertNotNil(receivedError)
-        XCTAssertEqual(producLoader.loadProductCallCount, 0)
+        XCTAssertEqual(productLoader.loadProductCallCount, 0)
         XCTAssertEqual(receivedError?.localizedDescription, "Barcode is empty")
     }
     

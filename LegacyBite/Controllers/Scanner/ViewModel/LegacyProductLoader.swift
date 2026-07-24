@@ -23,7 +23,7 @@ final class LegacyProductLoader: ProductLoading {
             } else if let product = result{
                 completion(.success(product))
             } else {
-                completion(.failure(NSError(domain: Bundle.main.bundleIdentifier ?? "LegacyBite", code: -1, userInfo: [NSLocalizedDescriptionKey:"Something went wrong. Try again latter."])))
+                completion(.failure(NSError(domain: Bundle.main.bundleIdentifier ?? "LegacyBite", code: -1, userInfo: [NSLocalizedDescriptionKey:"Something went wrong. Try again later."])))
             }
         }
     }

@@ -40,9 +40,9 @@
 		D0BA7885301277E000EF0FF1 /* Exceptions for "LegacyBite" folder in "LegacyBiteTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Controllers/Scaner/ViewModel/LegacyProductLoader.swift,
-				Controllers/Scaner/ViewModel/ProductLoading.swift,
-				Controllers/Scaner/ViewModel/ScannerViewModel.swift,
+				Controllers/Scanner/ViewModel/LegacyProductLoader.swift,
+				Controllers/Scanner/ViewModel/ProductLoading.swift,
+				Controllers/Scanner/ViewModel/ScannerViewModel.swift,
 				Helpers/extensions.swift,
 			);
 			target = D06540F03002A02A004DECB3 /* LegacyBiteTests */;
