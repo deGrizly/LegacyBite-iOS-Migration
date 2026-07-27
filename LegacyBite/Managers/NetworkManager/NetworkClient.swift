@@ -11,7 +11,7 @@ protocol NetworkApiClientProtocol: Sendable {
     func getProduct(barcode: String) async throws -> ProductDTO
 }
 
-final class NetworkCient: NetworkApiClientProtocol {
+final class NetworkClient: NetworkApiClientProtocol {
 
     private let session: URLSession
 

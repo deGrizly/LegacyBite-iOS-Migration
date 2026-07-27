@@ -20,7 +20,7 @@ final class ProductService: ProductServiceLoading {
     private let mapper: ProductMapper
 
     init(
-        apiClient: NetworkApiClientProtocol = NetworkCient(),
+        apiClient: NetworkApiClientProtocol = NetworkClient(),
         cache: ProductCache = LegacyProductCache(),
         mapper: ProductMapper = ProductMapper()
     ) {
