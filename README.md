@@ -1,151 +1,258 @@
 # LegacyBite — iOS Legacy Migration Case Study
 
-LegacyBite is a portfolio iOS project built as a staged modernization case study.
+LegacyBite is a portfolio iOS project that demonstrates the staged modernization of a working Objective-C/UIKit application.
 
-The app allows users to scan a product barcode, load product information from the Open Food Facts API, view nutrition details, and keep a local scan history.
+The app scans product barcodes, loads nutrition data from the Open Food Facts API, displays product details, and keeps a local scan history.
 
-The main goal of the project is to demonstrate a gradual migration from a legacy Objective-C/UIKit MVC codebase to a modern Swift-based architecture without performing a full rewrite.
-
-Each migration stage is preserved with a separate Git tag and GitHub Release.
+The goal is not to hide the legacy code behind a full rewrite. Each stage introduces a focused architectural improvement while keeping the application buildable and preserving existing behaviour. Significant stages are saved as Git tags and GitHub Releases.
 
 ## Current Stage
 
-### `v1-swift-viewmodel-bridge`
+### `v2-modern-swift-data-flow`
 
-The scanner flow now uses a Swift ViewModel inside the existing Objective-C/UIKit application.
+Stage 2 modernizes the complete product-loading path while intentionally preserving selected Objective-C components.
 
-The project remains intentionally hybrid:
+The scanner feature now uses:
 
-* View controllers are still written in Objective-C
-* UIKit and Storyboards remain in use
-* Existing networking and Core Data services remain unchanged
-* Swift is introduced behind a small interoperability boundary
-* Scanner business logic is independently unit tested
+- Swift UIKit for `ScannerViewController`
+- MVVM with a Swift `ScannerViewModel`
+- Combine and `@Published` for ViewModel-to-View communication
+- Swift Concurrency with `async/await`
+- `URLSession` for product requests
+- `Codable` DTOs for API decoding
+- Explicit DTO-to-legacy-model mapping
+- Protocol-based dependency injection
+- A Swift adapter around the existing Objective-C Core Data manager
+- XCTest coverage for decoding, mapping, ViewModel states, errors, and duplicate-request protection
 
-### Scanner Flow
+The project remains deliberately hybrid. The History and Product Detail flows still use Objective-C/UIKit, Core Data persistence remains behind the Objective-C `CoreDataManager`, and the existing Objective-C image loader remains responsible for image caching.
+
+## Application Features
+
+- Tab-based UIKit navigation: Scan, History, and About
+- AVFoundation barcode scanning
+- Product lookup through the Open Food Facts API
+- Nutrition and Nutri-Score display
+- Core Data product cache
+- Local scan history
+- Cached product images
+- Objective-C and Swift interoperability
+- Storyboard-based navigation
+- Unit and UI tests
+
+## Stage 2 Architecture
+
+### Product loading flow
 
 ```text
-ScannerViewController (Objective-C)
-        ↓
-ScannerViewModel (Swift)
-        ↓
-ProductLoading protocol
-        ↓
-LegacyProductLoader
-        ↓
-ProductManager (Objective-C)
+ScannerViewController (Swift UIKit)
+        │
+        │ barcode
+        ▼
+ScannerViewModel (Swift, @MainActor)
+        │
+        │ async ProductServiceLoading
+        ▼
+ProductService (Swift)
+        │
+        ├── Cache lookup
+        │      ▼
+        │   LegacyProductCache (Swift adapter)
+        │      ▼
+        │   CoreDataManager (Objective-C)
+        │
+        └── Cache miss
+               ▼
+            NetworkClient (Swift, URLSession)
+               ▼
+            ProductResponseDTO / ProductDTO (Codable)
+               ▼
+            ProductMapper
+               ▼
+            SSProductObject (Objective-C model)
+               ▼
+            LegacyProductCache → CoreDataManager
 ```
 
-`ScannerViewController` remains responsible for:
+### View state flow
 
-* Camera permissions
-* Barcode scanner presentation
-* Loading indicator
-* Alerts
-* Navigation to the product screen
+```text
+ScannerViewModel
+    @Published state
+        │
+        ▼
+Combine subscription
+        │
+        ▼
+ScannerViewController
+    idle / loading / loaded / failed
+```
 
-`ScannerViewModel` is responsible for:
+### Intentionally retained legacy boundaries
 
-* Barcode validation
-* Loading state
-* Preventing duplicate requests
-* Product loading results
-* Error propagation
+```text
+HistoryViewController (Objective-C)
+        ▼
+ProductManager (Objective-C, history facade)
+        ▼
+CoreDataManager (Objective-C)
 
-`LegacyProductLoader` adapts the existing Objective-C `ProductManager` to the Swift `ProductLoading` protocol.
+ProductCardViewController (Objective-C)
+        ▼
+SSNetworkManager (Objective-C, image loading and NSCache)
+```
 
-This keeps the existing application behavior while introducing dependency injection and testable Swift logic.
+This structure reflects a realistic production migration: modern code is introduced around stable legacy boundaries instead of replacing every component at once.
 
-## Implemented Features
+## Key Technical Decisions
 
-* UIKit tab-based navigation: Scan, History, About
-* AVFoundation barcode scanner
-* Product lookup by barcode
-* Core Data product cache
-* Local scan history
-* Cached product images
-* Product detail screen
-* About section with project and API information
-* Objective-C and Swift interoperability
-* Swift ViewModel for the scanner flow
-* Dependency injection through `ProductLoading`
-* Unit tests for legacy response mapping
-* Unit tests for `ScannerViewModel`
-* UI launch smoke test
+### Cache-first product loading
+
+`ProductService` checks the local cache before making a network request. A cache miss triggers the Swift networking flow, maps the decoded DTO into the existing `SSProductObject`, and stores the result through `LegacyProductCache`.
+
+### Separate transport and application models
+
+The Open Food Facts response is decoded into Swift `Codable` DTOs. `ProductMapper` then converts the API representation into the legacy Objective-C model used by the existing screens and Core Data layer.
+
+This prevents API field names and response structure from leaking into UI and persistence code.
+
+### Main-actor UI state
+
+`ScannerViewModel` is isolated to `@MainActor`. It publishes explicit states:
+
+```swift
+enum DataState {
+    case idle
+    case loading
+    case loaded(SSProductObject)
+    case failed(String)
+}
+```
+
+The ViewModel validates the barcode, prevents overlapping requests, awaits the injected product service, and updates the state consumed by the UIKit controller through Combine.
+
+### Protocol-based dependency injection
+
+The scanner flow depends on abstractions rather than concrete networking and persistence implementations. Tests provide mocks without performing live network requests or writing to the production Core Data store.
 
 ## Migration Roadmap
 
-* `v0-objc-mvc-legacy` — final Objective-C/UIKit MVC baseline
-* `v1-swift-viewmodel-bridge` — introduce a testable Swift ViewModel inside the Objective-C scanner flow
-* `v2-swift-uikit-combine` — migrate scanner and history controllers to Swift UIKit and replace bridge callbacks with Combine
-* `v3-swift-domain-persistence` — introduce a Swift domain model and modernize Core Data mapping and migration
-* `v4-modern-data-layer` — replace legacy networking with URLSession, Codable, async/await, and repository abstractions
-* `v5-hybrid-uikit-swiftui` — embed SwiftUI screens into the existing UIKit application
-* `v6-production-polish` — expand test coverage, improve accessibility and UX, add CI, and finalize documentation
+| Stage | Status | Description |
+|---|---:|---|
+| `v0-objc-mvc-legacy` | Complete | Final Objective-C/UIKit MVC baseline |
+| `v1-swift-viewmodel-bridge` | Complete | Introduced a testable Swift ViewModel behind an Objective-C scanner controller |
+| `v2-modern-swift-data-flow` | Current | Migrated the scanner controller to Swift UIKit, introduced Combine state binding, and rebuilt the product-loading flow with `async/await`, `URLSession`, `Codable`, mapping, and a legacy persistence adapter |
+| `v3-swiftui-integration` | Planned | Add a meaningful SwiftUI screen to the existing UIKit application through a hybrid navigation boundary |
+| `v4-cleanup-production-polish` | Planned | Remove remaining dead code, improve UX and accessibility, expand test coverage, add CI, and finalize project documentation |
+
+Stage numbers start at zero, so Stage 2 is the third preserved step in the migration history.
+
+## Testing
+
+The project uses XCTest to protect behaviour while implementations are replaced.
+
+### DTO decoding
+
+- Basic Open Food Facts product fields
+- Nutrition values
+- Missing optional fields
+
+### Product mapping
+
+- Basic product fields
+- Nutri-Score normalization
+- Nutrition values
+- Missing optional values
+
+### Scanner ViewModel
+
+- Empty barcode validation
+- Successful loading
+- Error state propagation
+- Published state transitions
+- Ignoring a second request while the first request is running
+
+### UI testing
+
+- Basic application launch smoke test
+
+Tests use injected mocks and local JSON samples. They do not depend on the live Open Food Facts service.
 
 ## Tech Stack
 
 ### Current
 
-* Objective-C
-* Swift
-* UIKit
-* Storyboards
-* AVFoundation
-* Core Data
-* Open Food Facts API
-* XCTest
-* MVC (legacy screens)
-* MVVM (scanner flow)
+- Objective-C
+- Swift 6
+- UIKit
+- Combine
+- Swift Concurrency
+- URLSession
+- Codable
+- Storyboards
+- AVFoundation
+- Core Data
+- XCTest
+- MVC for retained legacy screens
+- MVVM for the scanner flow
 
 ### Planned
 
-* Swift UIKit
-* Combine
-* URLSession
-* Codable
-* Swift Concurrency
-* Repository pattern
-* SwiftUI
-* Continuous Integration
+- SwiftUI
+- UIKit/SwiftUI interoperability
+- Accessibility and UX improvements
+- Continuous Integration
 
-## Testing
+## Project Structure
 
-The project uses XCTest to preserve existing behavior during the migration.
+```text
+LegacyBite/
+├── Controllers/
+│   ├── Scanner/                 # Swift UIKit + Combine + MVVM
+│   ├── History/                 # Objective-C legacy screen
+│   ├── ProductInfo/             # Objective-C legacy screen
+│   └── About/
+├── Managers/
+│   ├── NetworkManager/          # Swift product API + ObjC image loader
+│   ├── ProductManager/          # Swift ProductService + ObjC history facade
+│   └── ProductObject/           # Codable DTOs, mapper, ObjC product model
+├── CoreData/
+│   ├── LegacyProductCache.swift # Swift-to-Objective-C persistence adapter
+│   └── CoreDataManager.*        # Retained Objective-C persistence boundary
+└── Storyboards/
 
-### Legacy coverage
+LegacyBiteTests/
+├── ProductDTOTests.swift
+├── ProductMapperTests.swift
+└── ScannerViewModelTests.swift
+```
 
-* Mapping Open Food Facts JSON fields into the Objective-C product model
-* Mapping nutrition values
-* Handling responses with missing optional fields
-* Basic application launch smoke test
+## Running the Project
 
-### ScannerViewModel coverage
+1. Clone the repository.
+2. Open `LegacyBite.xcodeproj`.
+3. Select an iOS 16 or later simulator or device.
+4. Build and run the `LegacyBite` scheme.
+5. Grant camera access to scan a physical barcode, or use cached/history data when running in the simulator.
+6. Run the test suite with **Product → Test**.
 
-* Empty barcode validation
-* Successful product loading
-* Product loading failure
-* Ignoring a second request while the first request is still running
+The project has no third-party package dependencies.
 
-The scanner tests use a mock implementation of `ProductLoading`, allowing the ViewModel to be tested without performing real network requests.
+## Migration Principles
 
-## Migration Approach
-
-The migration follows several rules:
-
-* Preserve working behavior before replacing implementation details
-* Avoid rewriting the entire application at once
-* Introduce Swift behind small and explicit boundaries
-* Add tests before modernizing deeper layers
-* Keep each stage buildable and usable
-* Preserve every significant migration stage with a Git tag and GitHub Release
-
-The History screen remains in the existing Objective-C MVC implementation during the current stage because it contains little independent presentation logic. It will be migrated when the UIKit controllers move to Swift.
+- Preserve working behaviour before replacing implementation details
+- Avoid a risky full rewrite
+- Modernize one vertical slice at a time
+- Keep interoperability boundaries explicit
+- Separate transport, domain flow, persistence, and UI responsibilities
+- Add or update tests with every architectural change
+- Keep every migration stage buildable and reviewable
+- Preserve significant stages with Git tags and GitHub Releases
 
 ## Data Source
 
-Product data is provided by the public Open Food Facts API.
+Product information is provided by the public Open Food Facts API.
 
-The app does not own or verify the data returned by Open Food Facts. Product information may be incomplete, outdated, unavailable for some barcodes, or changed by the service over time.
+The application does not own or verify the returned data. Product information may be incomplete, outdated, unavailable for some barcodes, or changed by the service.
 
 This project uses the API for educational and portfolio purposes only.
