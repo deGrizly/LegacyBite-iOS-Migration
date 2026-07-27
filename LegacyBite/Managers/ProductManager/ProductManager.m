@@ -22,39 +22,6 @@
     return instance;
 }
 
--(void)getProductForBarCode:(NSString *)barCode with:(ProductResponseBlock)response{
-    
-    NSError * coreDataError = nil;
-    SSProductObject * obj = [[CoreDataManager shared]getProductBy:barCode error:&coreDataError];
-    if (coreDataError) {
-        NSLog(@"Core Data fetch error: %@", coreDataError.localizedDescription);
-    }
-    if(obj){
-        if(response){
-            response(obj, nil);
-        }
-        return;
-    }
-    
-    
-    [[SSNetworkManager shared]getProductInfoWith:barCode withResponse:^(id  _Nullable responseObject, NSError * _Nullable error) {
-        
-        if([responseObject isKindOfClass:[SSProductObject class]] && !error){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSError * saveError;
-                BOOL saved = [[CoreDataManager shared] saveProduct:responseObject error:&saveError];
-                if (!saved) {
-                    NSLog(@"Core Data save error: %@",  saveError.localizedDescription);
-                }
-            });
-        }
-        
-        if (response){
-            response(responseObject, error);
-        }
-    }];
-}
-
 -(NSArray<SSProductObject *> *)historyListOfProducts{
     NSError * error = nil;
     NSArray * list = [[CoreDataManager shared]getAllProducts:&error];

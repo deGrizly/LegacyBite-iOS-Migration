@@ -8,7 +8,7 @@
 #import "RootTabBarController.h"
 #import "AboutViewController.h"
 #import "HistoryViewController.h"
-#import "ScannerViewController.h"
+#import "LegacyBite-Swift.h"
 
 typedef enum : NSUInteger {
     RootTabBarTagScan,

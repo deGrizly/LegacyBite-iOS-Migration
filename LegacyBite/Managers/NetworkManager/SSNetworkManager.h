@@ -9,14 +9,13 @@
 #import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^SSNetworkResponseBlock)(id _Nullable responseObject, NSError * _Nullable error);
+
 typedef void (^imageBlock)(UIImage * _Nullable image, NSError * _Nullable error);
 @interface SSNetworkManager : NSObject
 
 + (instancetype)shared;
 
--(void)getProductInfoWith:(NSString *)barCode withResponse:(SSNetworkResponseBlock)completion;
--(NSURLSessionDataTask *)loadImageWithURL:(NSURL *)url completion:(SSNetworkResponseBlock)completion;
+-(NSURLSessionDataTask *)loadImageWithURL:(NSURL *)url completion:(imageBlock)completion;
 @end
 
 NS_ASSUME_NONNULL_END

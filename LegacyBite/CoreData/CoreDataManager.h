@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (SSProductObject *)getProductBy:(NSString *)barCode error:(NSError **)error;
 - (NSArray<SSProductObject *> *)getAllProducts:(NSError **)error;
 
+
+
 @end
 
 NS_ASSUME_NONNULL_END

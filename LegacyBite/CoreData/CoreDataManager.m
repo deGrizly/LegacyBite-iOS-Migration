@@ -48,13 +48,13 @@
         return nil;
     }
     NSFetchRequest * request = [Product fetchRequest];
-    request.predicate = [NSPredicate predicateWithFormat:@"code=%@",barCode];
+    request.predicate = [NSPredicate predicateWithFormat:@"code==%@",barCode];
     request.fetchLimit = 1;
     
     NSArray<Product *> * result = [context executeFetchRequest:request error:error];
     
-    if(error || result.count == 0){
-        return nil;;
+    if(result == nil || result.count == 0){
+        return nil;
     }
     
     return result.firstObject;
@@ -91,10 +91,34 @@
 #pragma mark - interface
 
 -(BOOL)saveProduct:(SSProductObject *)productObj error:(NSError *__autoreleasing  _Nullable *)error{
+    
+    if (!productObj) {
+        [self manageError:@"Product is nil" error:error];
+        return NO;
+    }
+    NSString * barCode = productObj.code;
+    if (barCode.length == 0) {
+        [self manageError:@"Barcode is empty" error:error];
+        return NO;
+    }
+    NSError *fetchError = nil;
+    Product *existingProduct = [self getProductWith:barCode error:&fetchError];
+    if (fetchError) {
+        if (error != NULL) {
+            *error = fetchError;
+        }
+        return NO;
+    }
+    
+    if (existingProduct) {
+        [self manageError:@"Product already exists" error:error];
+        return NO;
+    }
+    
     NSManagedObjectContext * context = [self context];
     if(!context){
         [self manageError:@"Context is nil" error:error];
-        return false;
+        return NO;
     }
     
     Product * entity = [NSEntityDescription insertNewObjectForEntityForName:@"Product" inManagedObjectContext:context];

@@ -6,52 +6,64 @@
 //
 
 import Foundation
+import Combine
 
-@objcMembers
-final class ScannerViewModel: NSObject {
+
+@MainActor
+final class ScannerViewModel: ObservableObject {
     
-    var onProductLoaded: ((SSProductObject) -> Void)?
-    var onError: ((NSError) -> Void)?
-    var onLoadingChanged: ((Bool) -> Void)?
+    enum DataState: Equatable {
+        case idle, loading, loaded(SSProductObject), failed(String)
+        
+        static func == (lhs: Self, rhs: Self) -> Bool {
+            switch (lhs, rhs) {
+            case (.idle, .idle): return true
+            case (.loading, .loading): return true
+            case let (.failed(lhsMessage), .failed(rhsMessage)):
+                return lhsMessage == rhsMessage
+            case let (.loaded(lhsProduct), .loaded(rhsProduct)):
+                return lhsProduct === rhsProduct
+            default: return false
+            }
+        }
+    }
+
+    @Published private(set) var state: DataState = .idle
     
-    private let productLoader: ProductLoading
+    private let productLoader: ProductServiceLoading
     private var isLoading = false
-    
-    override convenience init() {
-        self.init(productLoader: LegacyProductLoader())
-    }
-    
-    init(productLoader:ProductLoading){
+
+    init(productLoader:ProductServiceLoading = ProductService()){
         self.productLoader = productLoader
-        super.init()
     }
     
     
-    func loadProduct(barCode:String){
+    func loadProduct(barCode:String) async{
         guard !barCode.isEmpty else {
-            onError?(makeError("Barcode is empty"))
+            state = .failed(ProductApiError.emptyBarCode.localizedDescription)
             return
         }
         guard !isLoading else { return }
         
         isLoading = true
-        onLoadingChanged?(true)
+        state = .loading
         
-        productLoader.loadProduct(barCode: barCode){[weak self] result in
-            guard let self else { return }
+        
+        defer {
+            
             self.isLoading = false
-            self.onLoadingChanged?(false)
-            switch result {
-            case .success(let product):
-                self.onProductLoaded?(product)
-            case .failure(let error):
-                self.onError?(error)
-            }
         }
+        do {
+            let product = try await productLoader.loadProduct(barCode: barCode)
+            
+            state = .loaded(product)
+        } catch {
+            
+            state = .failed(error.localizedDescription)
+        }
+            
+        
     }
-    
-    private func makeError(_ message: String) -> NSError {
-        NSError(domain: Bundle.main.bundleIdentifier ?? "LegacyBite", code: -1, userInfo: [NSLocalizedDescriptionKey: message]
-        )
-    }
+
 }
+

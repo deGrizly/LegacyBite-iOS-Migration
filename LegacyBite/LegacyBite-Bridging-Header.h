@@ -4,3 +4,7 @@
 
 #import "SSProductObject.h"
 #import "ProductManager.h"
+#import "CameraViewController.h"
+#import "ProductCardViewController.h"
+#import "CoreDataManager.h"
+

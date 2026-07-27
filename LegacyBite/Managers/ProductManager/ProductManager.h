@@ -17,8 +17,6 @@ typedef void (^ProductResponseBlock)(SSProductObject * _Nullable product, NSErro
 
 + (instancetype)shared;
 
--(void)getProductForBarCode:(NSString *)barCode with:(ProductResponseBlock)response;
-
 -(NSArray <SSProductObject *> *)historyListOfProducts;
 
 @end

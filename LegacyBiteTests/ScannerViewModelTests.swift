@@ -6,55 +6,55 @@
 //
 
 import XCTest
+import Combine
 
 @testable import LegacyBite
 
-private final class ProductLoaderMock: ProductLoading {
+@MainActor
+private final class ProductLoaderMock: ProductServiceLoading {
+
     var loadProductCallCount = 0
     var receivedBarCode:String?
     var productToReturn: SSProductObject?
     var errorToReturn: NSError?
-    var shouldCallCompletion = true
+    var delayNanoseconds: UInt64 = 0
     
-    func loadProduct(barCode: String, completion: @escaping (Result<SSProductObject, NSError>) -> Void) {
-        
+    func loadProduct(barCode: String) async throws -> SSProductObject {
         loadProductCallCount += 1
         receivedBarCode = barCode
-        
-        guard shouldCallCompletion else { return }
-        
-        if let productToReturn{
-            completion(.success(productToReturn))
-            return
+        if delayNanoseconds > 0 {
+            try? await Task.sleep(nanoseconds: delayNanoseconds)
         }
-        
-        if let errorToReturn{
-            completion(.failure(errorToReturn))
+        if let productToReturn {
+            return productToReturn
         }
+        if let errorToReturn {
+            throw errorToReturn
+        }
+        fatalError("Mock is not configured")
     }
-    
-    
 }
 
 final class ScannerViewModelTests: XCTestCase {
     
-    func testLoadProductWithEmptyBarCodeReturnError(){
+    private var cancellables: Set<AnyCancellable> = []
+    
+    override func tearDown() {
+        cancellables.removeAll()
+        super.tearDown()
+    }
+    @MainActor
+    func testLoadProductWithEmptyBarCodeReturnError() async{
         let productLoader = ProductLoaderMock()
         let viewModel = ScannerViewModel(productLoader: productLoader)
+        await viewModel.loadProduct(barCode: "")
         
-        var receivedError: NSError?
-        viewModel.onError = { error in
-            receivedError = error
-        }
-        
-        viewModel.loadProduct(barCode: "")
-        
-        XCTAssertNotNil(receivedError)
+        XCTAssertEqual(viewModel.state, ScannerViewModel.DataState.failed(ProductApiError.emptyBarCode.localizedDescription))
         XCTAssertEqual(productLoader.loadProductCallCount, 0)
-        XCTAssertEqual(receivedError?.localizedDescription, "Barcode is empty")
     }
     
-    func testLoadProductReturnsProductWhenLoaderSucceeds(){
+    @MainActor
+    func testLoadProductReturnsProductWhenLoaderSucceeds() async{
         let productLoader = ProductLoaderMock()
         let expectedProduct = SSProductObject()
         
@@ -62,27 +62,25 @@ final class ScannerViewModelTests: XCTestCase {
         
         let viewModel = ScannerViewModel(productLoader: productLoader)
         
-        var receivedProduct: SSProductObject?
-        var loadingStateValues: [Bool] = []
-        viewModel.onProductLoaded = { product in
-            receivedProduct = product
-        }
-        viewModel.onLoadingChanged = { isLoading in
-            loadingStateValues.append(isLoading)
-        }
+        var receivedStates: [ScannerViewModel.DataState] = []
         
-        viewModel.loadProduct(barCode: "12345")
+        viewModel.$state
+            .sink{ state in receivedStates.append(state)}
+            .store(in: &cancellables)
+        
+        await viewModel.loadProduct(barCode: "12345")
+        
         
         XCTAssertEqual(productLoader.loadProductCallCount, 1)
-        
         XCTAssertEqual(productLoader.receivedBarCode, "12345")
-        XCTAssertNotNil(receivedProduct)
-        XCTAssertTrue(receivedProduct === expectedProduct)
-        XCTAssertEqual(loadingStateValues, [true, false])
+        
+        XCTAssertEqual(receivedStates, [.idle,.loading,.loaded(expectedProduct)])
+        
+        XCTAssertEqual(viewModel.state, ScannerViewModel.DataState.loaded(expectedProduct))
         
     }
-    
-    func testGetErrorWhenProductLoaderFails(){
+    @MainActor
+    func testGetErrorWhenProductLoaderFails() async {
         let productLoader = ProductLoaderMock()
         let expectedError = NSError(domain: "test", code: 0, userInfo:[NSLocalizedDescriptionKey: "Test error"])
         
@@ -90,52 +88,57 @@ final class ScannerViewModelTests: XCTestCase {
         
         let viewModel = ScannerViewModel(productLoader: productLoader)
         
-        var receivedError:NSError?
-        var receivedProduct:SSProductObject?
-        var loadingStateValues: [Bool] = []
+        var receivedStates: [ScannerViewModel.DataState] = []
+        viewModel.$state
+            .sink {state in receivedStates.append(state)}
+            .store(in: &cancellables)
         
-        viewModel.onLoadingChanged = { isLoading in
-            loadingStateValues.append(isLoading)
-        }
-        viewModel.onError = { error in
-            receivedError = error
-        }
-        viewModel.onProductLoaded = {product in
-            receivedProduct = product
-        }
+        await viewModel.loadProduct(barCode: "12345")
         
-        viewModel.loadProduct(barCode: "12345")
         
         XCTAssertEqual(productLoader.loadProductCallCount, 1)
-        XCTAssertEqual(loadingStateValues, [true, false])
-        
-        XCTAssertNil(receivedProduct)
-        XCTAssertNotNil(receivedError)
-        
-        XCTAssertTrue(receivedError === expectedError)
         XCTAssertEqual(productLoader.receivedBarCode, "12345")
+        XCTAssertEqual(receivedStates, [.idle,.loading,.failed(expectedError.localizedDescription)])
+        XCTAssertEqual(viewModel.state, ScannerViewModel.DataState.failed("Test error"))
         
     }
     
-    func testSecondRequestIsIgnoredWhileFirstRequestIsLoading() {
+    @MainActor
+    func testSecondRequestIsIgnoredWhileFirstRequestIsLoading() async {
+        let product = SSProductObject()
+
         let productLoader = ProductLoaderMock()
-        productLoader.shouldCallCompletion = false
+        productLoader.productToReturn = product
+        productLoader.delayNanoseconds = 300_000_000
 
         let viewModel = ScannerViewModel(
             productLoader: productLoader
         )
 
-        var loadingStateValues: [Bool] = []
+        var receivedStates: [ScannerViewModel.DataState] = []
 
-        viewModel.onLoadingChanged = { isLoading in
-            loadingStateValues.append(isLoading)
+        viewModel.$state
+            .sink { state in
+                receivedStates.append(state)
+            }
+            .store(in: &cancellables)
+        
+        let firstTask = Task {
+            await viewModel.loadProduct(barCode: "11111")
         }
+        
+        
+        await Task.yield()
+        
+        await viewModel.loadProduct(barCode: "22222")
 
-        viewModel.loadProduct(barCode: "11111")
-        viewModel.loadProduct(barCode: "22222")
+        await firstTask.value
 
         XCTAssertEqual(productLoader.loadProductCallCount, 1)
         XCTAssertEqual(productLoader.receivedBarCode, "11111")
-        XCTAssertEqual(loadingStateValues, [true])
+        XCTAssertEqual(
+            receivedStates,
+            [.idle, .loading, .loaded(product)]
+        )
     }
 }

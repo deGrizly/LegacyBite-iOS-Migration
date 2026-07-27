@@ -216,7 +216,7 @@
         <!--Scanner View Controller-->
         <scene sceneID="KYa-fy-WBs">
             <objects>
-                <viewController storyboardIdentifier="ScannerViewController" id="dmf-qX-3Eq" customClass="ScannerViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ScannerViewController" id="dmf-qX-3Eq" customClass="ScannerViewController" customModule="LegacyBite" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ssh-gD-3Dm">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -267,7 +267,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="scanBarcodeAction:" destination="dmf-qX-3Eq" eventType="touchUpInside" id="3Dh-9E-fce"/>
+                                    <action selector="scanBarCode:" destination="dmf-qX-3Eq" eventType="touchUpInside" id="v1c-u4-vwI"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -591,6 +591,7 @@ Align barcode inside the frame</string>
                 <navigationController storyboardIdentifier="CameraNavController" automaticallyAdjustsScrollViewInsets="NO" id="JaJ-i3-464" customClass="CameraNavController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="RIS-w4-1Uw">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

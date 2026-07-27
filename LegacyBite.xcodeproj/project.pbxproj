@@ -40,9 +40,7 @@
 		D0BA7885301277E000EF0FF1 /* Exceptions for "LegacyBite" folder in "LegacyBiteTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Controllers/Scanner/ViewModel/LegacyProductLoader.swift,
-				Controllers/Scanner/ViewModel/ProductLoading.swift,
-				Controllers/Scanner/ViewModel/ScannerViewModel.swift,
+				CoreData/LegacyProductCache.swift,
 				Helpers/extensions.swift,
 			);
 			target = D06540F03002A02A004DECB3 /* LegacyBiteTests */;
@@ -296,7 +294,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.05;
+				CURRENT_PROJECT_VERSION = 1.09;
 				DEVELOPMENT_TEAM = U3CW2XVKL7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LegacyBite/Info.plist;
@@ -328,7 +326,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.05;
+				CURRENT_PROJECT_VERSION = 1.09;
 				DEVELOPMENT_TEAM = U3CW2XVKL7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LegacyBite/Info.plist;
