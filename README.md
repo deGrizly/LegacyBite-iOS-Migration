@@ -8,24 +8,20 @@ The goal is not to hide the legacy code behind a full rewrite. Each stage introd
 
 ## Current Stage
 
-### `v2-modern-swift-data-flow`
+### `v3-swiftui-integration`
 
-Stage 2 modernizes the complete product-loading path while intentionally preserving selected Objective-C components.
+Stage 3 introduces SwiftUI into the application for the first time, using the About screen as a self-contained, low-risk vertical slice with no networking or Core Data dependencies.
 
-The scanner feature now uses:
+The About screen now uses:
 
-- Swift UIKit for `ScannerViewController`
-- MVVM with a Swift `ScannerViewModel`
-- Combine and `@Published` for ViewModel-to-View communication
-- Swift Concurrency with `async/await`
-- `URLSession` for product requests
-- `Codable` DTOs for API decoding
-- Explicit DTO-to-legacy-model mapping
-- Protocol-based dependency injection
-- A Swift adapter around the existing Objective-C Core Data manager
-- XCTest coverage for decoding, mapping, ViewModel states, errors, and duplicate-request protection
+- SwiftUI views for both the root screen (`AboutView`) and the detail screen (`AboutDetailsView`)
+- Fully programmatic construction — no storyboard scene, XIB, or Interface Builder identifiers
+- `UIHostingController` embedding each SwiftUI view as a leaf inside the existing UIKit `UINavigationController` stack
+- A small Swift coordinator (`AboutCoordinator`), exposed to Objective-C, that builds the hosting controllers and bridges row taps back into UIKit's imperative push navigation
+- Closure-based navigation instead of a nested SwiftUI `NavigationStack`, so the tab's existing UIKit navigation bar and large-title behaviour stay unchanged
+- XCTest coverage for the coordinator's view controller construction
 
-The project remains deliberately hybrid. The History and Product Detail flows still use Objective-C/UIKit, Core Data persistence remains behind the Objective-C `CoreDataManager`, and the existing Objective-C image loader remains responsible for image caching.
+The rest of the app remains unchanged: the Scanner flow stays Swift/MVVM/Combine, History and Product Detail stay Objective-C/MVC, and Core Data persistence and image caching stay behind their existing Objective-C boundaries.
 
 ## Application Features
 
@@ -40,7 +36,7 @@ The project remains deliberately hybrid. The History and Product Detail flows st
 - Storyboard-based navigation
 - Unit and UI tests
 
-## Stage 2 Architecture
+## Architecture
 
 ### Product loading flow
 
@@ -102,6 +98,31 @@ ProductCardViewController (Objective-C)
 SSNetworkManager (Objective-C, image loading and NSCache)
 ```
 
+### UIKit ↔ SwiftUI navigation boundary
+
+```text
+RootTabBarController (Objective-C)
+        │
+        │ builds the About tab
+        ▼
+AboutCoordinator.makeRootViewController() (Swift)
+        │
+        ▼
+UIHostingController<AboutView>
+        │   pushed as the tab's root view controller,
+        │   inside the pre-existing UINavigationController
+        │
+        │ row tap → onSelectDetail closure
+        ▼
+UIHostingController<AboutDetailsView>
+        │   pushed via hostingController.navigationController?
+        │          .pushViewController(_:animated:)
+        ▼
+AboutDetailsView (SwiftUI)
+```
+
+SwiftUI views are leaves inside the pre-existing UIKit navigation stack — there is no nested SwiftUI `NavigationStack`. UIKit still owns the tab bar, the navigation bar, and the push/pop transitions; SwiftUI only owns the content of each screen.
+
 This structure reflects a realistic production migration: modern code is introduced around stable legacy boundaries instead of replacing every component at once.
 
 ## Key Technical Decisions
@@ -135,14 +156,20 @@ The ViewModel validates the barcode, prevents overlapping requests, awaits the i
 
 The scanner flow depends on abstractions rather than concrete networking and persistence implementations. Tests provide mocks without performing live network requests or writing to the production Core Data store.
 
+### SwiftUI screens as leaves in the UIKit navigation stack
+
+The About screen is built entirely in SwiftUI, but does not introduce its own navigation container. `AboutCoordinator` constructs a `UIHostingController` for each screen and pushes it through the enclosing `UINavigationController` that `RootTabBarController` already owns, using a plain closure rather than a nested SwiftUI `NavigationStack`.
+
+This keeps the hybrid boundary explicit and narrow: UIKit remains the single source of truth for navigation across the whole app, while SwiftUI is free to evolve independently, screen by screen, in later stages.
+
 ## Migration Roadmap
 
 | Stage | Status | Description |
 |---|---:|---|
 | `v0-objc-mvc-legacy` | Complete | Final Objective-C/UIKit MVC baseline |
 | `v1-swift-viewmodel-bridge` | Complete | Introduced a testable Swift ViewModel behind an Objective-C scanner controller |
-| `v2-modern-swift-data-flow` | Current | Migrated the scanner controller to Swift UIKit, introduced Combine state binding, and rebuilt the product-loading flow with `async/await`, `URLSession`, `Codable`, mapping, and a legacy persistence adapter |
-| `v3-swiftui-integration` | Planned | Add a meaningful SwiftUI screen to the existing UIKit application through a hybrid navigation boundary |
+| `v2-modern-swift-data-flow` | Complete | Migrated the scanner controller to Swift UIKit, introduced Combine state binding, and rebuilt the product-loading flow with `async/await`, `URLSession`, `Codable`, mapping, and a legacy persistence adapter |
+| `v3-swiftui-integration` | Current | Add a meaningful SwiftUI screen to the existing UIKit application through a hybrid navigation boundary |
 | `v4-cleanup-production-polish` | Planned | Remove remaining dead code, improve UX and accessibility, expand test coverage, add CI, and finalize project documentation |
 
 Stage numbers start at zero, so Stage 2 is the third preserved step in the migration history.
@@ -185,6 +212,7 @@ Tests use injected mocks and local JSON samples. They do not depend on the live 
 - Objective-C
 - Swift 6
 - UIKit
+- SwiftUI
 - Combine
 - Swift Concurrency
 - URLSession
@@ -195,11 +223,10 @@ Tests use injected mocks and local JSON samples. They do not depend on the live 
 - XCTest
 - MVC for retained legacy screens
 - MVVM for the scanner flow
+- `UIHostingController`-based UIKit/SwiftUI interoperability
 
 ### Planned
 
-- SwiftUI
-- UIKit/SwiftUI interoperability
 - Accessibility and UX improvements
 - Continuous Integration
 
@@ -211,7 +238,7 @@ LegacyBite/
 │   ├── Scanner/                 # Swift UIKit + Combine + MVVM
 │   ├── History/                 # Objective-C legacy screen
 │   ├── ProductInfo/             # Objective-C legacy screen
-│   └── About/
+│   └── About/                   # SwiftUI, fully programmatic (UIHostingController)
 ├── Managers/
 │   ├── NetworkManager/          # Swift product API + ObjC image loader
 │   ├── ProductManager/          # Swift ProductService + ObjC history facade
@@ -224,7 +251,8 @@ LegacyBite/
 LegacyBiteTests/
 ├── ProductDTOTests.swift
 ├── ProductMapperTests.swift
-└── ScannerViewModelTests.swift
+├── ScannerViewModelTests.swift
+└── AboutCoordinatorTests.swift
 ```
 
 ## Running the Project
