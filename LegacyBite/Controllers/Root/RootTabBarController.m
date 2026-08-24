@@ -6,7 +6,6 @@
 //
 
 #import "RootTabBarController.h"
-#import "AboutViewController.h"
 #import "HistoryViewController.h"
 #import "LegacyBite-Swift.h"
 
@@ -54,7 +53,7 @@ typedef enum : NSUInteger {
     historyNC.tabBarItem = historyItem;
     
 
-    AboutViewController * aboutVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateViewControllerWithIdentifier:@"AboutViewController"];
+    UIViewController * aboutVC = [AboutCoordinator makeRootViewController];
     UINavigationController * aboutNC = [[UINavigationController alloc] initWithRootViewController:aboutVC];
     aboutNC.navigationBar.prefersLargeTitles = YES;
     UITabBarItem * aboutItem = [[UITabBarItem alloc] initWithTitle:@"About" image:[UIImage systemImageNamed:@"info.circle"] tag:RootTabBarTagAbout];
